@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //animation for scrolling
   document.addEventListener("DOMContentLoaded", () => {
+
     const reveals = document.querySelectorAll(".reveal");
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -49,6 +50,15 @@ document.addEventListener("DOMContentLoaded", () => {
     reveals.forEach(reveal => {
       observer.observe(reveal);
     });
+        // Example usage:
+renderProducts("new-arrivals", products.slice(0, 8)); // show first 8
+renderProducts("featured", products.slice(8, 16)); // show next 4
+
+// Wooden Wall Decor Scenery category
+renderProducts(
+  "wooden-wall-decor",
+  products.filter(p => p.category === "Wooden Wall Decor Scenery")
+);
   });
 
 
@@ -75,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 function renderProducts(containerId, productList) {
+  
   const container = document.getElementById(containerId);
   if (!container) return; // prevent crash if id not found
 
@@ -84,7 +95,7 @@ function renderProducts(containerId, productList) {
     container.innerHTML += `
       <a href="product-details.html?id=${product.id}" style = "text-decoration:none;">
     <div class="pro">
-        <img src="${product.image}" alt="${product.name}" loading="lazy" />
+        <img src="${product.image}" alt="${product.name}" />
         <div class="des">
           <span>${product.category}</span>
           <h5>${product.name}</h5>
@@ -115,15 +126,7 @@ function renderProducts(containerId, productList) {
 });
 }
 
-// Example usage:
-renderProducts("new-arrivals", products.slice(0, 8)); // show first 8
-renderProducts("featured", products.slice(8, 16)); // show next 4
 
-// Wooden Wall Decor Scenery category
-renderProducts(
-  "wooden-wall-decor",
-  products.filter(p => p.category === "Wooden Wall Decor Scenery")
-);
 
 
 // cart utility functions

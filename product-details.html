@@ -14,23 +14,32 @@
   </head>
   <body>
     <style>
-        .old-price {
-  text-decoration: line-through;
-  color: #777;
-  font-size: 0.9em;
-  margin-left: 8px;
-}
+      .old-price {
+        text-decoration: line-through;
+        color: #777;
+        font-size: 0.9em;
+        margin-left: 8px;
+      }
     </style>
-    
 
     <!-- navbar section -->
     <section id="header">
       <a
         href="/index.html"
         class="logo-link"
-        style="display: inline-block; text-align: end; text-decoration: none"
-        ><img src="img/sajidartslogo.png" class="logo" alt="" /><small
-          style="display: block; font-size: 10px; color: #555"
+        style="
+          display: flex;
+          text-align: end;
+          text-decoration: none;
+          flex-direction: column;
+          justify-content: flex-start;
+        "
+        ><img
+          src="img/sajidartslogo.png"
+          class="logo"
+          alt=""
+          loading="lazy"
+        /><small style="font-size: 10px; color: #555; text-align: center"
           >Since 1987</small
         ></a
       >
@@ -40,9 +49,11 @@
           <li><a id="homeLink" href="/index.html">Home</a></li>
           <!-- Shop Dropdown -->
           <li class="dropdown">
-            <a href="#">Shop ▾</a>
+            <a href="#">Categories ▾</a>
             <ul class="dropdown-menu">
-              <li><a href="/wooden-wall-decor.html">Acrylic Wall Decor Scenery</a></li>
+              <li>
+                <a href="/wooden-wall-decor.html">Wooden Wall Decor Scenery</a>
+              </li>
               <li><a href="/workplace-decor.html">Workplace Decor</a></li>
               <li><a href="/arabic-calligraphy.html">Arabic Calligraphy</a></li>
               <li><a href="/gold-acrylic-decor.html">Gold Acrylic Decor</a></li>
@@ -75,79 +86,24 @@
         <i id="bar" class="fas fa-outdent"></i>
       </div>
     </section>
-    <!-- product details sections -->
-
-    <!-- <section id="prodetails" class="section-p1">
-      <div class="single-pro-image">
-        <img src="img/products/f1.jpg" width="100%" id="MainImg" alt="" />
-        <div class="small-img-group">
-          <div class="small-img-col">
-            <img
-              src="img/products/f1.jpg"
-              width="100%"
-              class="small-img"
-              alt=""
-            />
-          </div>
-          <div class="small-img-col">
-            <img
-              src="img/products/f2.jpg"
-              width="100%"
-              class="small-img"
-              alt=""
-            />
-          </div>
-          <div class="small-img-col">
-            <img
-              src="img/products/f3.jpg"
-              width="100%"
-              class="small-img"
-              alt=""
-            />
-          </div>
-          <div class="small-img-col">
-            <img
-              src="img/products/f4.jpg"
-              width="100%"
-              class="small-img"
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-      <div class="single-pro-details">
-        <h6>Category</h6>
-        <h4>Product Name</h4>
-        <h2>$139.99</h2>
-        <input type="number" value="0" />
-        <button class="normal">Add To Cart</button>
-        <h4>Product Details</h4>
-        <span
-          >Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure quam
-          commodi quaerat illum dolorum, totam harum mollitia perferendis quae
-          necessitatibus, nulla dolor aliquid voluptates velit inventore maiores
-          itaque minima quia.</span
-        >
-      </div>
-    </section> -->
 
     <section id="prodetails" class="section-p1">
-  <div class="single-pro-image">
-    <img src="" width="100%" id="MainImg" alt="Product Image" />
-    <div class="small-img-group" id="smallImgs"></div>
-  </div>
+      <div class="single-pro-image">
+        <img src="" width="100%" id="MainImg" alt="Product Image" />
+        <div class="small-img-group" id="smallImgs"></div>
+      </div>
 
-  <div class="single-pro-details">
-    <h6 id="category"></h6>
-    <h4 id="productName"></h4>
-    <h2 id="productPrice"></h2>
-    <input type="number" id="qtyInput" value="1" min="1" />
-<button class="normal" id="addToCartBtn">Add To Cart</button>
+      <div class="single-pro-details">
+        <h6 id="category"></h6>
+        <h4 id="productName"></h4>
+        <h2 id="productPrice"></h2>
+        <input type="number" id="qtyInput" value="1" min="1" />
+        <button class="normal" id="addToCartBtn">Add To Cart</button>
 
-    <h4>Product Details</h4>
-    <span id="productDesc"></span>
-  </div>
-</section>
+        <h4>Product Details</h4>
+        <span id="productDesc"></span>
+      </div>
+    </section>
     <!-- footer section -->
     <footer class="section-p1">
       <div class="col">
@@ -183,65 +139,63 @@
         <p>© 2025, Sajid Arts</p>
       </div>
     </footer>
-<script src="products.js"></script>
+    <script src="products.js"></script>
     <script src="script.js"></script>
 
+    <script>
+      // 1. Get ID from URL
+      const params = new URLSearchParams(window.location.search);
+      const productId = parseInt(params.get("id"));
 
+      // 2. Find product
+      const product = products.find((p) => p.id === productId);
 
+      if (product) {
+        // Fill product details
+        document.getElementById("MainImg").src = product.image;
+        document.getElementById("category").innerText = product.category;
+        document.getElementById("productName").innerText = product.name;
+        const priceEl = document.getElementById("productPrice");
+        priceEl.innerHTML =
+          `$${product.price} ` +
+          (product.oldPrice
+            ? `<span class="old-price">$${product.oldPrice}</span>`
+            : "");
+        document.getElementById("productDesc").innerText = product.description;
 
-<script>
-  // 1. Get ID from URL
-  const params = new URLSearchParams(window.location.search);
-  const productId = parseInt(params.get("id"));
+        // ---- Add to Cart functionality ---- //
+        const btn = document.getElementById("addToCartBtn");
+        const qtyInput = document.getElementById("qtyInput");
 
-  // 2. Find product
-  const product = products.find(p => p.id === productId);
+        btn.addEventListener("click", () => {
+          const qty = parseInt(qtyInput.value) || 1;
 
-  if (product) {
-    // Fill product details
-    document.getElementById("MainImg").src = product.image;
-    document.getElementById("category").innerText = product.category;
-    document.getElementById("productName").innerText = product.name;
-    const priceEl = document.getElementById("productPrice");
-    priceEl.innerHTML =
-      `$${product.price} ` +
-      (product.oldPrice ? `<span class="old-price">$${product.oldPrice}</span>` : "");
-    document.getElementById("productDesc").innerText = product.description;
+          // fetch existing cart
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // ---- Add to Cart functionality ---- //
-    const btn = document.getElementById("addToCartBtn");
-    const qtyInput = document.getElementById("qtyInput");
+          // check if already in cart
+          const existing = cart.find((item) => item.id === product.id);
+          if (existing) {
+            existing.quantity += qty;
+          } else {
+            cart.push({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              image: product.image,
+              quantity: qty,
+            });
+          }
 
-    btn.addEventListener("click", () => {
-      const qty = parseInt(qtyInput.value) || 1;
+          // save cart
+          localStorage.setItem("cart", JSON.stringify(cart));
 
-      // fetch existing cart
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-      // check if already in cart
-      const existing = cart.find(item => item.id === product.id);
-      if (existing) {
-        existing.quantity += qty;
-      } else {
-        cart.push({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          image: product.image,
-          quantity: qty
+          alert(`${product.name} (x${qty}) added to cart!`);
         });
+      } else {
+        document.getElementById("prodetails").innerHTML =
+          "<h2>Product not found.</h2>";
       }
-
-      // save cart
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      alert(`${product.name} (x${qty}) added to cart!`);
-    });
-
-  } else {
-    document.getElementById("prodetails").innerHTML = "<h2>Product not found.</h2>";
-  }
-</script>
-
+    </script>
   </body>
 </html>
