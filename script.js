@@ -95,7 +95,7 @@ function renderProducts(containerId, productList) {
     container.innerHTML += `
       <a href="product-details.html?id=${product.id}" style = "text-decoration:none;">
     <div class="pro">
-        <img src="${product.image}" alt="${product.name}" />
+        <img src="${product.image}" alt="${product.name}" loading = "lazy"/>
         <div class="des">
           <span>${product.category}</span>
           <h5>${product.name}</h5>

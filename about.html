@@ -31,7 +31,7 @@
           <li><a id="homeLink" href="/index.html">Home</a></li>
           <!-- Shop Dropdown -->
           <li class="dropdown">
-            <a href="#">Shop ▾</a>
+            <a href="#">Categories▾</a>
             <ul class="dropdown-menu">
               <li>
                 <a href="/wooden-wall-decor.html">Wooden Wall Decor Scenery</a>
@@ -165,5 +165,28 @@
     </footer>
 
     <script src="script.js"></script>
+    <!-- WhatsApp Widget -->
+    <script>
+      (function () {
+        var options = {
+          whatsapp: "+923177693301", // ✅ Your WhatsApp number
+          call_to_action: "Chat With Us", // Text in popup
+          position: "left", // 'right' or 'left'
+        };
+        var proto = document.location.protocol,
+          host = "getbutton.io",
+          url = proto + "//static." + host;
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = url + "/widget-send-button/js/init.js";
+        s.onload = function () {
+          WhWidgetSendButton.init(host, proto, options);
+        };
+        var x = document.getElementsByTagName("script")[0];
+        x.parentNode.insertBefore(s, x);
+      })();
+    </script>
+
   </body>
 </html>
