@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sajid Arts</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="img/favicon.png" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- navbar section -->
+    <section id="header">
+      <a
+        href="/index.html"
+        class="logo-link"
+        style="display: flex;text-align: end;text-decoration: none;flex-direction: column;justify-content: flex-start;"
+        ><img src="img/sajidartslogo.png" class="logo" alt="" loading="lazy"/><small
+          style="font-size: 10px; color: #555; text-align:center;"
+          >Since 1987</small
+        ></a
+      >
+
+      <div>
+        <ul id="navbar">
+          <li><a id="homeLink" href="/index.html">Home</a></li>
+          <!-- Shop Dropdown -->
+          <li class="dropdown">
+            <a href="#">Categories</a>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="/wooden-wall-decor.html">Wooden Wall Decor Scenery</a>
+              </li>
+              <li><a href="/workplace-decor.html">Workplace Decor</a></li>
+              <li><a href="/arabic-calligraphy.html">Arabic Calligraphy</a></li>
+              <li><a href="/gold-acrylic-decor.html">Gold Acrylic Decor</a></li>
+              <li>
+                <a href="/chrome-acrylic-decor.html">Chrome Acrylic Decor</a>
+              </li>
+              <li>
+                <a href="/customized-neon-signs.html">Customized Neon Signs</a>
+              </li>
+              <li>
+                <a href="/acrylic-wall-clocks.html">Acrylic Wall Clocks</a>
+              </li>
+              <li><a href="/steel-letter-sign.html">Steel Letter Signs</a></li>
+              <li>
+                <a href="/offset-printing-works.html">Offset Printing Works</a>
+              </li>
+            </ul>
+          </li>
+
+          <li><a id="aboutLink" href="/about.html">About</a></li>
+          <li><a id="contactLink" href="/contact.html">Contact</a></li>
+          <li id="lg-bag">
+            <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+          </li>
+          <a href="#" id="close"><i class="fas fa-times"></i></a>
+        </ul>
+      </div>
+      <div id="mobile">
+        <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a>
+        <i id="bar" class="fas fa-outdent"></i>
+      </div>
+    </section>
+
+    
+
+    <section id="product1" class="section-p1 reveal">
+      <h2>Home Decor</h2>
+      <p>Transforming ordinary spaces into extraordinary places.</p>
+      <div class="pro-container" id="home-decor"></div>
+      <button id="loadMore" class="normal" style="background-color: #253675; color: #fff;">See More</button>
+    </section>
+
+    <!-- featured products section -->
+
+    <!-- footer section -->
+    <footer class="section-p1">
+      <div class="col">
+        <img class="logo" src="img/sajidartslogo.png" loading="lazy" alt="" />
+        <h4>Contact</h4>
+        <p>
+          <strong>Address: </strong>Shop No. 3, BS 12/1, Opp. Bank Al Habib,
+          F.B. Area, Karimabad, Karachi
+        </p>
+        <p><strong>Phone:</strong> +92 317 7693301</p>
+        <p><strong>Hours:</strong> 10:00 - 21:00, Mon - Sat</p>
+        <div class="follow">
+          <h4>Follow Us</h4>
+          <div class="icon">
+            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-youtube"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <h4>About</h4>
+        <a href="/about.html">About Us</a>
+        <a href="#">Policies</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div class="col">
+        <h4>My Account</h4>
+        <a href="/cart.html">View Cart</a>
+      </div>
+      <div class="copyright">
+        <p>© 2025, Sajid Arts</p>
+      </div>
+    </footer>
+    <script src="products.js" defer></script>
+    <script src="script.js" defer></script>
+    <!-- WhatsApp Widget -->
+    <script>
+      (function () {
+        var options = {
+          whatsapp: "+923177693301", // ✅ Your WhatsApp number
+          call_to_action: "Chat With Us", // Text in popup
+          position: "left", // 'right' or 'left'
+        };
+        var proto = document.location.protocol,
+          host = "getbutton.io",
+          url = proto + "//static." + host;
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = url + "/widget-send-button/js/init.js";
+        s.onload = function () {
+          WhWidgetSendButton.init(host, proto, options);
+        };
+        var x = document.getElementsByTagName("script")[0];
+        x.parentNode.insertBefore(s, x);
+      })();
+    </script>
+
+  </body>
+</html>

@@ -1,17 +1,17 @@
-const bar = document.getElementById('bar');
-const nav = document.getElementById('navbar');
-const close = document.getElementById('close');
+const bar = document.getElementById("bar");
+const nav = document.getElementById("navbar");
+const close = document.getElementById("close");
 
-if(bar){
-    bar.addEventListener('click', () =>{
-        nav.classList.add('active');
-    })
+if (bar) {
+  bar.addEventListener("click", () => {
+    nav.classList.add("active");
+  });
 }
 
-if(close){
-    close.addEventListener('click', () =>{
-        nav.classList.remove('active');
-    });
+if (close) {
+  close.addEventListener("click", () => {
+    nav.classList.remove("active");
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentPath = window.location.pathname;
 
   // Loop through all navbar links
-  document.querySelectorAll("#navbar li a").forEach(link => {
+  document.querySelectorAll("#navbar li a").forEach((link) => {
     // Compare the link href with the current path
     if (link.getAttribute("href") === currentPath) {
       link.classList.add("active");
@@ -29,38 +29,144 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-
-
-
 //animation for scrolling
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
+  const reveals = document.querySelectorAll(".reveal");
 
-    const reveals = document.querySelectorAll(".reveal");
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
+  const observer = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add("active");
           observer.unobserve(entry.target); // Remove if you want animation only once
         }
       });
-    }, { threshold: 0.2 }); // Trigger when 20% visible
+    },
+    { threshold: 0.1 }
+  ); // Trigger when 20% visible
 
-    reveals.forEach(reveal => {
-      observer.observe(reveal);
-    });
-        // Example usage:
-renderProducts("new-arrivals", products.slice(0, 8)); // show first 8
-renderProducts("featured", products.slice(8, 16)); // show next 4
-
-// Wooden Wall Decor Scenery category
-renderProducts(
-  "wooden-wall-decor",
-  products.filter(p => p.category === "Wooden Wall Decor Scenery")
-);
+  reveals.forEach((reveal) => {
+    observer.observe(reveal);
   });
+  
+  //home decor
+  const selected = products.filter((p) =>
+    [
+      "Acrylic Wall Clocks",
+      "Chrome Acrylic Decor",
+      "Gold Acrylic Decor",
+      "Wooden Wall Decor Scenery",
+      "Arabic Calligraphy",
+      "Customized Neon Signs",
+    ].includes(p.category)
+  );
 
+  // shuffle
+  const shuffled = selected.sort(() => Math.random() - 0.5);
+
+  
+let perPage = 10; // how many products per load
+let currentIndex = 0;
+let loading = false;
+
+// render a chunk
+function renderPage() {
+  if (loading) return; 
+  loading = true;
+
+  const slice = shuffled.slice(currentIndex, currentIndex + perPage);
+  renderProducts("home-decor", slice, true);
+  currentIndex += perPage;
+  //  hide button if no more products left
+  if (currentIndex >= shuffled.length) {
+  document.getElementById("loadMore").style.display = "none";
+} 
+// and at initial load:
+if (shuffled.length <= perPage) {
+  document.getElementById("loadMore").style.display = "none";
+}
+
+  loading = false;
+}
+
+// initial load
+renderPage();
+
+// See More
+seeMoreBtn = document.getElementById("loadMore");
+if (seeMoreBtn){
+seeMoreBtn.addEventListener("click", () => {
+  // when user reaches near bottom
+  
+  
+ renderPage();
+  
+});
+}
+
+  // Example usage:
+  renderProducts("new-arrivals", products.slice(0, 10)); // show first 8
+  renderProducts("featured", products.slice(10, 20)); // show next 4
+
+  // Wooden Wall Decor Scenery category
+  renderProducts(
+    "wooden-wall-decor",
+    products.filter((p) => p.category === "Wooden Wall Decor Scenery")
+  );
+
+  // Workplace Decor category
+  renderProducts(
+    "workplace-decor",
+    products.filter((p) => p.category === "Workplace Decor")
+  );
+
+  // Arabic Calligraphy category
+  renderProducts(
+    "arabic-calligraphy",
+    products.filter((p) => p.category === "Arabic Calligraphy")
+  );
+
+  // gold acrylic decor
+  renderProducts(
+    "gold-acrylic-decor",
+    products.filter((p) => p.category === "Gold Acrylic Decor")
+  );
+
+  // chrome acrylic decor
+  renderProducts(
+    "chrome-acrylic-decor",
+    products.filter((p) => p.category === "Chrome Acrylic Decor")
+  );
+  // customized neon signs
+  renderProducts(
+    "customized-neon-signs",
+    products.filter((p) => p.category === "Customized Neon Signs")
+  );
+  // Acrylic Wall Clocks
+  renderProducts(
+    "acrylic-wall-clocks",
+    products.filter((p) => p.category === "Acrylic Wall Clocks")
+  );
+  // Offset Printing Works
+  renderProducts(
+    "offset-printing-works",
+    products.filter((p) => p.category === "Offset Printing Works"), true
+  );
+
+  //steel letter signs
+  renderProducts(
+    "steel-letter-signs",
+    products.filter((p) => p.category === "Steel Letter Signs")
+  );
+
+  //acrylic wall decor
+  renderProducts(
+    "acrylic-wall-decor",
+    products.filter((p) =>
+  ["Acrylic Wall Clocks", "Chrome Acrylic Decor", "Gold Acrylic Decor"].includes(p.category)
+)
+  );
+});
 
 (function () {
   const link = document.querySelector("#navbar .dropdown > a");
@@ -82,51 +188,52 @@ renderProducts(
   });
 })();
 
-
-
-function renderProducts(containerId, productList) {
-  
+function renderProducts(containerId, productList, append = false) {
   const container = document.getElementById(containerId);
   if (!container) return; // prevent crash if id not found
 
-  container.innerHTML = ""; // clear before inserting
+  if (!append) container.innerHTML = ""; // clear if not appending
 
-  productList.forEach(product => {
-    container.innerHTML += `
-      <a href="product-details.html?id=${product.id}" style = "text-decoration:none;">
-    <div class="pro">
-        <img src="${product.image}" alt="${product.name}" loading = "lazy"/>
-        <div class="des">
-          <span>${product.category}</span>
-          <h5>${product.name}</h5>
-          <h4>
-              <span style="color:#673de6;font-weight:bold;font-size:20px;margin-right:8px;">
-                Rs. ${product.price}
-              </span>
-              ${product.oldPrice 
-                ? `<span style="color:#777;text-decoration:line-through;font-size:14px;">
-                    Rs. ${product.oldPrice}
-                   </span>` 
-                : ""}
-            </h4>
-        </div>
-      <a href="#" class="add-to-cart" data-id="${product.id}">
-  <span class="cart"><i class="fa-solid fa-cart-shopping"></i></span>
-</a>
+  productList.forEach((product) => {
+    const item = document.createElement("div");
+    item.innerHTML = `
+  <div class="pro">
+    <a href="product-details.html?id=${product.id}" style="text-decoration:none;">
+      <img src="${product.image}" alt="${product.name}" loading="lazy"/>
+      <div class="des">
+        <span>${product.category}</span>
+        <h5>${product.name}</h5>
+        <h4>
+          <span style="color:#253675;font-weight:bold;font-size:19px;margin-right:8px;">
+            Rs. ${product.mediumPrice}
+          </span>
+          ${
+            product.mediumDiscounted
+              ? `<span style="color:#777;text-decoration:line-through;font-size:13px;">
+                  Rs. ${product.mediumDiscounted}
+                 </span>`
+              : ""
+          }
+        </h4>
       </div>
-      </a>
-    `;
+    </a>
+    <a href="#" class="add-to-cart" data-id="${product.id}">
+      <span class="cart"><i class="fa-solid fa-cart-shopping"></i></span>
+    </a>
+  </div>
+`;
+container.appendChild(item.firstElementChild);
   });
-  document.querySelectorAll(`#${containerId} .add-to-cart`).forEach(btn => {
-  btn.addEventListener("click", (e) => {
-    e.preventDefault(); // prevent page reload
-    const id = parseInt(btn.dataset.id);
-    addToCart(id);
+
+  // Attach "Add to Cart" events
+  container.querySelectorAll(".add-to-cart").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const id = parseInt(btn.dataset.id);
+      addToCart(id);
+    });
   });
-});
 }
-
-
 
 
 // cart utility functions
@@ -142,11 +249,11 @@ function saveCart(cart) {
 
 function addToCart(productId) {
   const cart = getCart();
-  const product = products.find(p => p.id === productId);
+  const product = products.find((p) => p.id === productId);
 
   if (!product) return;
 
-  const existing = cart.find(item => item.id === productId);
+  const existing = cart.find((item) => item.id === productId);
   if (existing) {
     existing.quantity += 1; // increase quantity
   } else {
@@ -156,59 +263,55 @@ function addToCart(productId) {
       price: product.price,
       // ✅ store absolute URL instead of relative
       image: new URL(product.image, window.location.origin).href,
-      quantity: 1
+      quantity: 1,
     });
   }
 
   saveCart(cart);
-  
-  
+
   alert(`${product.name} added to cart!`);
 }
 
-
 // testimonials slider
 
-      document.addEventListener("DOMContentLoaded", function () {
-        const slider = document.querySelector("#banner3 .slider");
-        const slides = document.querySelectorAll("#banner3 .banner-box");
-        const prevBtn = document.querySelector("#banner3 .prev");
-        const nextBtn = document.querySelector("#banner3 .next");
- if (!slider || slides.length === 0 || !prevBtn || !nextBtn) return; // <-- stop if missing
-        let currentIndex = 0;
+document.addEventListener("DOMContentLoaded", function () {
+  const slider = document.querySelector("#banner3 .slider");
+  const slides = document.querySelectorAll("#banner3 .banner-box");
+  const prevBtn = document.querySelector("#banner3 .prev");
+  const nextBtn = document.querySelector("#banner3 .next");
+  if (!slider || slides.length === 0 || !prevBtn || !nextBtn) return; // <-- stop if missing
+  let currentIndex = 0;
 
-        function getVisibleCards() {
-          if (window.innerWidth <= 477) return 1; // phones
-          if (window.innerWidth <= 799) return 2; // tablets
-          if (window.innerWidth <= 1200) return 3; // medium screens
-          return 4; // desktops
-        }
+  function getVisibleCards() {
+    if (window.innerWidth <= 477) return 1; // phones
+    if (window.innerWidth <= 799) return 2; // tablets
+    if (window.innerWidth <= 1200) return 3; // medium screens
+    return 4; // desktops
+  }
 
-        function showSlide(index) {
-          const visibleCards = getVisibleCards();
-          const totalSlides = slides.length - visibleCards + 1;
+  function showSlide(index) {
+    const visibleCards = getVisibleCards();
+    const totalSlides = slides.length - visibleCards + 1;
 
-          if (index < 0) index = totalSlides - 1;
-          if (index >= totalSlides) index = 0;
-          currentIndex = index;
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    currentIndex = index;
 
-          const movePercent = (100 / visibleCards) * index;
-          slider.style.transform = `translateX(-${movePercent}%)`;
-        }
+    const movePercent = (100 / visibleCards) * index;
+    slider.style.transform = `translateX(-${movePercent}%)`;
+  }
 
-        prevBtn.addEventListener("click", () => {
-          showSlide(currentIndex - 1);
-        });
+  prevBtn.addEventListener("click", () => {
+    showSlide(currentIndex - 1);
+  });
 
-        nextBtn.addEventListener("click", () => {
-          showSlide(currentIndex + 1);
-        });
+  nextBtn.addEventListener("click", () => {
+    showSlide(currentIndex + 1);
+  });
 
-        window.addEventListener("resize", () => {
-          showSlide(currentIndex); // re-calc when screen resizes
-        });
+  window.addEventListener("resize", () => {
+    showSlide(currentIndex); // re-calc when screen resizes
+  });
 
-        showSlide(currentIndex);
-      });
-  
-
+  showSlide(currentIndex);
+});

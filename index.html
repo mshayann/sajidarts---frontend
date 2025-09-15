@@ -22,7 +22,7 @@
         class="logo-link"
         style="display: flex;text-align: end;text-decoration: none;flex-direction: column;justify-content: flex-start;"
         ><img src="img/sajidartslogo.png" class="logo" alt="" loading="lazy"/><small
-          style="font-size: 10px; color: #555; text-align:center;"
+          style="font-size: 50%; color: #555; text-align:center;"
           >Since 1987</small
         ></a
       >
@@ -32,7 +32,7 @@
           <li><a id="homeLink" href="/index.html">Home</a></li>
           <!-- Shop Dropdown -->
           <li class="dropdown">
-            <a href="#">Categories▾</a>
+            <a href="#">Categories</a>
             <ul class="dropdown-menu">
               <li>
                 <a href="/wooden-wall-decor.html">Wooden Wall Decor Scenery</a>
@@ -49,7 +49,7 @@
               <li>
                 <a href="/acrylic-wall-clocks.html">Acrylic Wall Clocks</a>
               </li>
-              <li><a href="/acrylic-shields.html">Acrylic Shields</a></li>
+              <li><a href="/steel-letter-sign.html">Steel Letter Signs</a></li>
               <li>
                 <a href="/offset-printing-works.html">Offset Printing Works</a>
               </li>
@@ -70,13 +70,17 @@
       </div>
     </section>
 
-    <!-- hero section -->
-    <section id="hero">
-      
-    </section>
+    
+    <section id="carousel">
+  <div class="slideshow-container">
+    <div class="mySlides" style="background-image: url('img/home_pictures/home-carousel1.jpg');"></div>
+    <div class="mySlides" style="background-image: url('img/home_pictures/home-carousel2.png');"></div>
+    <div class="mySlides" style="background-image: url('img/home_pictures/home-carousel3.gif');"></div>
+  </div>
+</section>
 
     <!-- call to action banners section -->
-    <div style="text-align: center" class="section-p1 reveal">
+    <div id="collections" style="text-align: center;" class="action-banner section-p1 reveal">
       <h2>Collections</h2>
       <p>A Sajid Arts collection, made for you!</p>
     </div>
@@ -85,25 +89,25 @@
         <h4>Crazy Deals</h4>
         <h2>Home Decor</h2>
         <span>Style your space with elegance.</span>
-        <button class="white">See More</button>
+        <button class="white" onclick="location.href='/home-decor.html'">See More</button>
       </div>
       <div class="banner-box banner-box2">
         <h4>Crazy Deals</h4>
         <h2>Arabic Calligraphy</h2>
         <span>Where words transform into timeless artistic beauty.</span>
-        <button class="white">See More</button>
+        <button class="white" onclick="location.href='/arabic-calligraphy.html'">See More</button>
       </div>
       <div class="banner-box banner-box3">
         <h4>Crazy Deals</h4>
         <h2>Customize Neon</h2>
         <span>Light up your space with custom neon.</span>
-        <button class="white">See More</button>
+        <button class="white" onclick="location.href='/customized-neon-signs.html'">See More</button>
       </div>
       <div class="banner-box banner-box4">
         <h4>Crazy Deals</h4>
         <h2>Acrylic Wall Decor</h2>
         <span>Transform your walls with stylish acrylic decor.</span>
-        <button class="white">See More</button>
+        <button class="white" onclick="location.href='/acrylic-wall-decor.html'">See More</button>
       </div>
     </section>
 
@@ -298,5 +302,23 @@
         x.parentNode.insertBefore(s, x);
       })();
     </script>
+<!-- carousel JS -->
+<script>
+let slideIndex = 0;
+const slides = document.querySelectorAll(".mySlides");
+
+function showSlides() {
+  slides.forEach((slide, i) => {
+    slide.classList.remove("active");
+  });
+  slideIndex = (slideIndex + 1) % slides.length;
+  slides[slideIndex].classList.add("active");
+}
+
+slides[0].classList.add("active"); // show first slide
+setInterval(showSlides, 3000); // change every 3 sec
+</script>
+
+
   </body>
 </html>
