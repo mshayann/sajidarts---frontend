@@ -13,7 +13,16 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <script></script>
+    <marquee
+      bgcolor="#D3D3D3"
+      loop="-1"
+      scrollamount="10"
+      width="100%"
+      style="line-height: 23px; padding: 0px; color: black"
+      >Prices may vary depending on the size customer specifies • Prices for
+      categories like Customized Neon Signs and Steel Letter Signs will only be
+      told when the user specifies the size and quantity.</marquee
+    >
 
     <!-- navbar section -->
     <section id="header">
@@ -205,7 +214,7 @@
         </form>
       </div>
     </div>
-
+    <script src="products.js"></script>
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
@@ -216,23 +225,32 @@
         tbody.innerHTML = "";
 
         let total = 0;
-        cart.forEach((item) => {
-          const subtotal = item.price * item.quantity;
-          total += subtotal;
+        
+       cart.forEach((item) => {
+  let subtotal;
+  let priceDisplay;
 
+  if (typeof item.price === "number" && !isNaN(item.price)) {
+    subtotal = item.price * item.quantity;
+    priceDisplay = `Rs. ${item.price}`;
+    total += subtotal; // ✅ only add when price is valid
+  } else {
+    subtotal = "To be decided on order";
+    priceDisplay = "To be decided on order";
+  }
 
-          tbody.innerHTML += `
-        <tr>
-          <td><a href="#" class="remove" data-id="${item.id}">
-            <i class="fa-regular fa-trash-can fa-lg big-trash"></i></a></td>
-          <td><img src="${item.image}" alt="${item.name}"></td>
-          <td>${item.name}</td>
-          <td>Rs. ${item.price}</td>
-          <td><input type="number" min="1" value="${item.quantity}" class="qty" data-id="${item.id}"></td>
-          <td>Rs. ${subtotal}</td>
-        </tr>
-      `;
-        });
+  tbody.innerHTML += `
+    <tr>
+      <td><a href="#" class="remove" data-id="${item.id}">
+        <i class="fa-regular fa-trash-can fa-lg big-trash"></i></a></td>
+      <td><img src="${item.image}" alt="${item.name}"></td>
+      <td>${item.name}</td>
+      <td>${priceDisplay}</td>
+      <td><input type="number" min="1" value="${item.quantity}" class="qty" data-id="${item.id}"></td>
+      <td>${subtotal}</td>
+    </tr>
+  `;
+});
 
         // update totals
         document.querySelector("#subtotal table").innerHTML = `

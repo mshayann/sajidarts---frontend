@@ -260,7 +260,7 @@ function addToCart(productId) {
     cart.push({
       id: product.id,
       name: product.name,
-      price: product.price,
+      price: product.mediumPrice,
       // ✅ store absolute URL instead of relative
       image: new URL(product.image, window.location.origin).href,
       quantity: 1,

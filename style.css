@@ -909,6 +909,11 @@ footer .copyright {
 #cart table tbody td {
   font-size: 13px;
 }
+#cart-items td:nth-child(3) {
+  max-width: 200px;
+  white-space: normal;
+  word-wrap: break-word;
+}
 
 #cart-add {
   display: flex;
