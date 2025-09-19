@@ -18,7 +18,7 @@
       loop="-1"
       scrollamount="10"
       width="100%"
-      style="line-height: 23px; padding: 0px; color: black"
+      style="line-height: 23px; padding: 0px; color: black;"
       >Prices may vary depending on the size customer specifies • Prices for
       categories like Customized Neon Signs and Steel Letter Signs will only be
       told when the user specifies the size and quantity.</marquee
@@ -36,11 +36,11 @@
           justify-content: flex-start;
         "
         ><img
-          src="img/sajidartslogo.png"
+          src="img/sajidartslogo1.png"
           class="logo"
           alt=""
           loading="lazy"
-        /><small style="font-size: 50%; color: #555; text-align: center"
+        /><small style=" color: #555; text-align: right"
           >Since 1987</small
         ></a
       >
@@ -292,7 +292,7 @@
     <!-- footer section -->
     <footer class="section-p1">
       <div class="col">
-        <img class="logo" src="img/sajidartslogo.png" alt="" loading="lazy" />
+        <img class="logo" src="img/sajidartslogo1.png" alt="" loading="lazy" />
         <h4>Contact</h4>
         <p>
           <strong>Address: </strong>Shop No. 3, BS 12/1, Opp. Bank Al Habib,
@@ -337,28 +337,45 @@
 
     <script src="products.js" defer></script>
     <script src="script.js" defer></script>
-    <!-- WhatsApp Widget -->
+    
     <script>
-      (function () {
-        var options = {
-          whatsapp: "+923177693301", // ✅ Your WhatsApp number
-          call_to_action: "Chat With Us", // Text in popup
-          position: "left", // 'right' or 'left'
-        };
-        var proto = document.location.protocol,
-          host = "getbutton.io",
-          url = proto + "//static." + host;
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.async = true;
-        s.src = url + "/widget-send-button/js/init.js";
-        s.onload = function () {
-          WhWidgetSendButton.init(host, proto, options);
-        };
-        var x = document.getElementsByTagName("script")[0];
-        x.parentNode.insertBefore(s, x);
-      })();
-    </script>
+                var url = 'https://wati-integration-prod-service.clare.ai/v2/watiWidget.js?69156';
+                var s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.async = true;
+                s.src = url;
+                var options = {
+                "enabled":true,
+                "chatButtonSetting":{
+                    "backgroundColor":"#00e785",
+                    "ctaText":"",
+                    "borderRadius":"25",
+                    "marginLeft": "0",
+                    "marginRight": "20",
+                    "marginBottom": "20",
+                    "ctaIconWATI":false,
+                    "position":"left"
+                },
+                "brandSetting":{
+                    "brandName":"Sajid Arts",
+                    "brandSubTitle":"undefined",
+                    "brandImg":"",
+                    "welcomeText":"Hi there!\nHow can I help you?",
+                    "messageText":"",
+                    "backgroundColor":"#00e785",
+                    "ctaText":"Chat with us",
+                    "borderRadius":"25",
+                    "autoShow":false,
+                    "phoneNumber":"923177693301"
+                }
+                };
+                s.onload = function() {
+                    CreateWhatsappChatWidget(options);
+                };
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+            </script>
+
     <!-- carousel JS -->
     <script>
       let slideIndex = 0;

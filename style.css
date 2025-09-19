@@ -80,7 +80,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 80px;
+  padding: 20px 15px;
   background: #e3e6f3;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
   z-index: 999;
@@ -88,9 +88,16 @@ body {
   top: 0;
   left: 0;
 }
+#header .logo-link {
+  width: 50%;
+}
 
 #header img {
-  width: 60%;
+  width: 50%;
+}
+#header small {
+  width: 44%;
+  font-size: 70%;
 }
 
 #navbar {
@@ -159,7 +166,7 @@ body {
 
 #carousel {
   width: 100%;
-  height: 60vh;
+  height: 100vh; /* media query lagegei of 100 vh of computer logo choti krdo*/
   position: relative;
   overflow: hidden;
 }
@@ -177,6 +184,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
+  object-fit: cover !important;
   top: 0;
   left: 0;
   opacity: 0;
@@ -218,6 +226,9 @@ body {
 }
 /* For medium & small devices */
 @media (max-width: 799px) {
+  #carousel {
+    height: 70vh;
+  }
     .size-options {
     flex-direction: column;
 }
@@ -1081,6 +1092,19 @@ footer .copyright {
 }
 
 @media (max-width: 477px) {
+ 
+  
+  #header img {
+  width: 90%;
+}
+#header small {
+  width: 80%;
+  font-size: 30%;
+  text-align: right;
+}
+   #carousel {
+    height: 40vh;
+  }
   .size-options {
     flex-direction: column;
 }
@@ -1097,7 +1121,7 @@ footer .copyright {
     padding: 20px;
   }
   #header {
-    padding: 10px 30px;
+    padding: 10px 5px;
   }
 
   h1 {

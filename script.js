@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
   reveals.forEach((reveal) => {
     observer.observe(reveal);
   });
-  
+
   //home decor
   const selected = products.filter((p) =>
     [
@@ -64,45 +64,42 @@ document.addEventListener("DOMContentLoaded", () => {
   // shuffle
   const shuffled = selected.sort(() => Math.random() - 0.5);
 
-  
-let perPage = 10; // how many products per load
-let currentIndex = 0;
-let loading = false;
+  let perPage = 10; // how many products per load
+  let currentIndex = 0;
+  let loading = false;
 
-// render a chunk
-function renderPage() {
-  if (loading) return; 
-  loading = true;
+  // render a chunk
+  function renderPage() {
+    if (loading) return;
+    loading = true;
 
-  const slice = shuffled.slice(currentIndex, currentIndex + perPage);
-  renderProducts("home-decor", slice, true);
-  currentIndex += perPage;
-  //  hide button if no more products left
-  if (currentIndex >= shuffled.length) {
-  document.getElementById("loadMore").style.display = "none";
-} 
-// and at initial load:
-if (shuffled.length <= perPage) {
-  document.getElementById("loadMore").style.display = "none";
-}
+    const slice = shuffled.slice(currentIndex, currentIndex + perPage);
+    renderProducts("home-decor", slice, true);
+    currentIndex += perPage;
+    //  hide button if no more products left
+    if (currentIndex >= shuffled.length) {
+      document.getElementById("loadMore").style.display = "none";
+    }
+    // and at initial load:
+    if (shuffled.length <= perPage) {
+      document.getElementById("loadMore").style.display = "none";
+    }
 
-  loading = false;
-}
+    loading = false;
+  }
 
-// initial load
-renderPage();
+  // initial load
+  renderPage();
 
-// See More
-seeMoreBtn = document.getElementById("loadMore");
-if (seeMoreBtn){
-seeMoreBtn.addEventListener("click", () => {
-  // when user reaches near bottom
-  
-  
- renderPage();
-  
-});
-}
+  // See More
+  seeMoreBtn = document.getElementById("loadMore");
+  if (seeMoreBtn) {
+    seeMoreBtn.addEventListener("click", () => {
+      // when user reaches near bottom
+
+      renderPage();
+    });
+  }
 
   // Example usage:
   renderProducts("new-arrivals", products.slice(0, 10)); // show first 8
@@ -150,7 +147,8 @@ seeMoreBtn.addEventListener("click", () => {
   // Offset Printing Works
   renderProducts(
     "offset-printing-works",
-    products.filter((p) => p.category === "Offset Printing Works"), true
+    products.filter((p) => p.category === "Offset Printing Works"),
+    true
   );
 
   //steel letter signs
@@ -163,8 +161,12 @@ seeMoreBtn.addEventListener("click", () => {
   renderProducts(
     "acrylic-wall-decor",
     products.filter((p) =>
-  ["Acrylic Wall Clocks", "Chrome Acrylic Decor", "Gold Acrylic Decor"].includes(p.category)
-)
+      [
+        "Acrylic Wall Clocks",
+        "Chrome Acrylic Decor",
+        "Gold Acrylic Decor",
+      ].includes(p.category)
+    )
   );
 });
 
@@ -192,29 +194,33 @@ function renderProducts(containerId, productList, append = false) {
   const container = document.getElementById(containerId);
   if (!container) return; // prevent crash if id not found
 
-  if (!append) container.innerHTML = ""; // clear if not appending
+  if (!append) container.innerHTML = "";
 
   productList.forEach((product) => {
     const item = document.createElement("div");
     item.innerHTML = `
   <div class="pro">
-    <a href="product-details.html?id=${product.id}" style="text-decoration:none;">
+    <a href="product-details.html?id=${
+      product.id
+    }" style="text-decoration:none;">
       <img src="${product.image}" alt="${product.name}" loading="lazy"/>
       <div class="des">
         <span>${product.category}</span>
         <h5>${product.name}</h5>
         <h4>
-          <span style="color:#253675;font-weight:bold;font-size:19px;margin-right:8px;">
-            Rs. ${product.mediumPrice}
-          </span>
-          ${
-            product.mediumDiscounted
-              ? `<span style="color:#777;text-decoration:line-through;font-size:13px;">
-                  Rs. ${product.mediumDiscounted}
-                 </span>`
-              : ""
-          }
-        </h4>
+  <span style="color:#253675;font-weight:bold;font-size:19px;margin-right:8px;">
+    Rs. ${
+      product.mediumDiscounted ? product.mediumDiscounted : product.mediumPrice
+    }
+  </span>
+  ${
+    product.mediumDiscounted
+      ? `<span style="color:#777;text-decoration:line-through;font-size:13px;">
+          Rs. ${product.mediumPrice}
+         </span>`
+      : ""
+  }
+</h4>
       </div>
     </a>
     <a href="#" class="add-to-cart" data-id="${product.id}">
@@ -222,7 +228,7 @@ function renderProducts(containerId, productList, append = false) {
     </a>
   </div>
 `;
-container.appendChild(item.firstElementChild);
+    container.appendChild(item.firstElementChild);
   });
 
   // Attach "Add to Cart" events
@@ -230,11 +236,11 @@ container.appendChild(item.firstElementChild);
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       const id = parseInt(btn.dataset.id);
-      addToCart(id);
+      const size = btn.dataset.size; // ✅ capture size
+      addToCart(id, size);
     });
   });
 }
-
 
 // cart utility functions
 
@@ -246,22 +252,34 @@ function getCart() {
 function saveCart(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
-
-function addToCart(productId) {
+function addToCart(productId, size = "medium") {
   const cart = getCart();
   const product = products.find((p) => p.id === productId);
 
   if (!product) return;
 
-  const existing = cart.find((item) => item.id === productId);
+  // pick price and dimension based on size
+  let price, dimension;
+  if (size === "large") {
+    price = product.largePrice;
+    dimension = product.largeDimension;
+  } else {
+    price = product.mediumPrice;
+    dimension = product.mediumDimension;
+  }
+
+  // check if the same product with same size already exists
+  const existing = cart.find((item) => item.id === productId && item.size === size);
+
   if (existing) {
-    existing.quantity += 1; // increase quantity
+    existing.quantity += 1;
   } else {
     cart.push({
       id: product.id,
       name: product.name,
-      price: product.mediumPrice,
-      // ✅ store absolute URL instead of relative
+      size: size,
+      price: price,
+      dimension: dimension,
       image: new URL(product.image, window.location.origin).href,
       quantity: 1,
     });
@@ -269,7 +287,7 @@ function addToCart(productId) {
 
   saveCart(cart);
 
-  alert(`${product.name} added to cart!`);
+  alert(`${product.name} (${size}) added to cart!`);
 }
 
 // testimonials slider
@@ -315,3 +333,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
   showSlide(currentIndex);
 });
+
+                var url = 'https://wati-integration-prod-service.clare.ai/v2/watiWidget.js?69156';
+                var s = document.createElement('script');
+                s.type = 'text/javascript';
+                s.async = true;
+                s.src = url;
+                var options = {
+                "enabled":true,
+                "chatButtonSetting":{
+                    "backgroundColor":"#00e785",
+                    "ctaText":"",
+                    "borderRadius":"25",
+                    "marginLeft": "0",
+                    "marginRight": "20",
+                    "marginBottom": "20",
+                    "ctaIconWATI":false,
+                    "position":"left"
+                },
+                "brandSetting":{
+                    "brandName":"Sajid Arts",
+                    "brandSubTitle":"undefined",
+                    "brandImg":"",
+                    "welcomeText":"Hi there!\nHow can I help you?",
+                    "messageText":"",
+                    "backgroundColor":"#00e785",
+                    "ctaText":"Chat with us",
+                    "borderRadius":"25",
+                    "autoShow":false,
+                    "phoneNumber":"923177693301"
+                }
+                };
+                s.onload = function() {
+                    CreateWhatsappChatWidget(options);
+                };
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+            

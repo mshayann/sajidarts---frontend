@@ -18,23 +18,34 @@
       loop="-1"
       scrollamount="10"
       width="100%"
-      style="line-height: 23px; padding: 0px; color: black"
+      style="line-height: 23px; padding: 0px; color: black;"
       >Prices may vary depending on the size customer specifies • Prices for
       categories like Customized Neon Signs and Steel Letter Signs will only be
       told when the user specifies the size and quantity.</marquee
     >
 
     <!-- navbar section -->
-    <section id="header">
+  <section id="header">
       <a
         href="/index.html"
         class="logo-link"
-        style="display: flex;text-align: end;text-decoration: none;flex-direction: column;justify-content: flex-start;"
-        ><img src="img/sajidartslogo.png" class="logo" alt="" loading="lazy"/><small
-          style="font-size: 50%; color: #555; text-align:center;"
+        style="
+          display: flex;
+          text-align: end;
+          text-decoration: none;
+          flex-direction: column;
+          justify-content: flex-start;
+        "
+        ><img
+          src="img/sajidartslogo1.png"
+          class="logo"
+          alt=""
+          loading="lazy"
+        /><small style=" color: #555; text-align: right"
           >Since 1987</small
         ></a
       >
+
 
       <div>
         <ul id="navbar">
@@ -124,7 +135,7 @@
     <!-- footer section -->
      <footer class="section-p1">
       <div class="col">
-        <img class="logo" src="img/sajidartslogo.png" alt="" loading="lazy" />
+        <img class="logo" src="img/sajidartslogo1.png" alt="" loading="lazy" />
         <h4>Contact</h4>
         <p>
           <strong>Address: </strong>Shop No. 3, BS 12/1, Opp. Bank Al Habib,
@@ -220,73 +231,76 @@
 
     <script>
       function renderCart() {
-        const cart = JSON.parse(localStorage.getItem("cart")) || [];
-        const tbody = document.getElementById("cart-items");
-        tbody.innerHTML = "";
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const tbody = document.getElementById("cart-items");
+  tbody.innerHTML = "";
 
-        let total = 0;
-        
-       cart.forEach((item) => {
-  let subtotal;
-  let priceDisplay;
+  let total = 0;
 
-  if (typeof item.price === "number" && !isNaN(item.price)) {
-    subtotal = item.price * item.quantity;
-    priceDisplay = `Rs. ${item.price}`;
-    total += subtotal; // ✅ only add when price is valid
-  } else {
-    subtotal = "To be decided on order";
-    priceDisplay = "To be decided on order";
-  }
+  cart.forEach((item, index) => {
+    let subtotal;
+    let priceDisplay;
 
-  tbody.innerHTML += `
-    <tr>
-      <td><a href="#" class="remove" data-id="${item.id}">
-        <i class="fa-regular fa-trash-can fa-lg big-trash"></i></a></td>
-      <td><img src="${item.image}" alt="${item.name}"></td>
-      <td>${item.name}</td>
-      <td>${priceDisplay}</td>
-      <td><input type="number" min="1" value="${item.quantity}" class="qty" data-id="${item.id}"></td>
-      <td>${subtotal}</td>
-    </tr>
-  `;
-});
+    if (typeof item.price === "number" && !isNaN(item.price)) {
+      subtotal = item.price * item.quantity;
+      priceDisplay = `Rs. ${item.price}`;
+      total += subtotal;
+    } else {
+      subtotal = "To be decided on order";
+      priceDisplay = "To be decided on order";
+    }
 
-        // update totals
-        document.querySelector("#subtotal table").innerHTML = `
-      <tr><td>Cart Subtotal</td><td>Rs. ${total}</td></tr>
-      <tr><td>Delivery</td><td>Rs. 200</td></tr>
-      <tr><td><strong>Total</strong></td><td><strong>Rs. ${total + 200}</strong></td></tr>
+    tbody.innerHTML += `
+      <tr>
+        <td><a href="#" class="remove" data-id="${item.id}" data-size="${item.size}">
+          <i class="fa-regular fa-trash-can fa-lg big-trash"></i></a></td>
+        <td><img src="${item.image}" alt="${item.name}"></td>
+        <td>${item.name} <br><small>(${item.size})</small></td>
+        <td>${priceDisplay}</td>
+        <td><input type="number" min="1" value="${item.quantity}" class="qty" data-id="${item.id}" data-size="${item.size}"></td>
+        <td>${subtotal}</td>
+      </tr>
     `;
+  });
 
-        // remove item
-        document.querySelectorAll(".remove").forEach((btn) => {
-          btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const id = parseInt(btn.dataset.id);
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cart = cart.filter((item) => item.id !== id);
-            localStorage.setItem("cart", JSON.stringify(cart));
-            renderCart();
-          });
-        });
+  // update totals
+  document.querySelector("#subtotal table").innerHTML = `
+    <tr><td>Cart Subtotal</td><td>Rs. ${total}</td></tr>
+    <tr><td>Delivery</td><td>Rs. 400</td></tr>
+    <tr><td><strong>Total</strong></td><td><strong>Rs. ${total + 400}</strong></td></tr>
+  `;
 
-        // update qty
-        document.querySelectorAll(".qty").forEach((input) => {
-          input.addEventListener("change", (e) => {
-            const id = parseInt(input.dataset.id);
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const item = cart.find((i) => i.id === id);
-            if (item) {
-              item.quantity = parseInt(input.value) || 1;
-              localStorage.setItem("cart", JSON.stringify(cart));
-              renderCart();
-            }
-          });
-        });
+  // remove item
+  document.querySelectorAll(".remove").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const id = parseInt(btn.dataset.id);
+      const size = btn.dataset.size;
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart = cart.filter((item) => !(item.id === id && item.size === size));
+      localStorage.setItem("cart", JSON.stringify(cart));
+      renderCart();
+    });
+  });
+
+  // update qty
+  document.querySelectorAll(".qty").forEach((input) => {
+    input.addEventListener("change", (e) => {
+      const id = parseInt(input.dataset.id);
+      const size = input.dataset.size;
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const item = cart.find((i) => i.id === id && i.size === size);
+      if (item) {
+        item.quantity = parseInt(input.value) || 1;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
       }
+    });
+  });
+}
 
-      document.addEventListener("DOMContentLoaded", renderCart);
+document.addEventListener("DOMContentLoaded", renderCart);
+
     </script>
 
     <script>
@@ -309,7 +323,7 @@
       });
 
       // EmailJS integration
-      emailjs.init("_wN7K_GXJAEFhb1B3"); // replace with your EmailJS user ID
+      emailjs.init("GuzZMcnYc1Oht3Cci"); // replace with your EmailJS user ID
 
 modalForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -333,7 +347,7 @@ modalForm.addEventListener("submit", (e) => {
     image_url: item.image || "https://via.placeholder.com/64" // fallback
   }));
 
-    // ✅ Check if cart is empty
+    //  Check if cart is empty
   if (orders.length === 0) {
     alert("Your cart is empty. Please add products before placing an order.");
     return;
@@ -353,16 +367,16 @@ modalForm.addEventListener("submit", (e) => {
     product_description: description,
     orders: orders, // array for template loop
     cost: {
-      shipping: 200,
+      shipping: 400,
       tax: 0,
-      total: total+200,
+      total: total+400,
     },
     // website_url: "https://sajidart.com" // optional branding
   };
 
   // Send email via EmailJS
   emailjs
-    .send("service_c9x7sqi", "template_sxv1hyp", emailData)
+    .send("service_zai1vet", "template_e3mjs2c", emailData)
     .then(() => {
       alert("Order sent successfully!");
       modalForm.reset();
@@ -376,28 +390,7 @@ modalForm.addEventListener("submit", (e) => {
     });
 });
       </script>
-      <!-- WhatsApp Widget -->
-    <script>
-      (function () {
-        var options = {
-          whatsapp: "+923177693301", // ✅ Your WhatsApp number
-          call_to_action: "Chat With Us", // Text in popup
-          position: "left", // 'right' or 'left'
-        };
-        var proto = document.location.protocol,
-          host = "getbutton.io",
-          url = proto + "//static." + host;
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.async = true;
-        s.src = url + "/widget-send-button/js/init.js";
-        s.onload = function () {
-          WhWidgetSendButton.init(host, proto, options);
-        };
-        var x = document.getElementsByTagName("script")[0];
-        x.parentNode.insertBefore(s, x);
-      })();
-    </script>
+      
 
   </body>
 </html>
